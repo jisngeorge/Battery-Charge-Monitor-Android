@@ -144,14 +144,22 @@ class MainActivity : AppCompatActivity() {
     // Data is displayed on TextView
     @RequiresApi(Build.VERSION_CODES.O)
     fun showData(view: View) {
-        ProcessData()
-        val tStatus:TextView = findViewById(R.id.textViewStatus)
-        "Spot Count:       $spotCount\n\nOptimal Count: $optimalCount\n\nBad Count:        $badCount\n\n".also { tStatus.text = it }
-
         val tDate:TextView = findViewById(R.id.textViewDate)
         val tHour:TextView = findViewById(R.id.textViewHour)
         val tDischarge:TextView = findViewById(R.id.textViewDischarge)
         val tDuration:TextView = findViewById(R.id.textViewDuration)
+
+        displayTable.clear()
+
+        tDate.text = ""
+        tHour.text = ""
+        tDischarge.text = ""
+        tDuration.text = ""
+
+        ProcessData()
+
+        val tStatus:TextView = findViewById(R.id.textViewStatus)
+        "Spot Count:       $spotCount\n\nOptimal Count: $optimalCount\n\nBad Count:        $badCount\n\n".also { tStatus.text = it }
 
         var sDate:String = "Date\n---------\n"
         var sHour:String= "Hour\n----------\n"
@@ -165,6 +173,7 @@ class MainActivity : AppCompatActivity() {
             sDischarge += row.dischargePercentage.toString() + "\n"
             sDuration += row.dischargeDuration.toString() + "\n"
         }
+
         tDate.text = sDate
         tHour.text = sHour
         tDischarge.text = sDischarge
