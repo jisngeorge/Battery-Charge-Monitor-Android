@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 // If our is changed
                 else {
                     // To account for discharge duration if data was not recorded each minute
-                    if(currentStatus == "Discharging")
+                    if(currentStatus == "Discharging" && currentPercentage <= previousPercentage)
                     {
                         dischargeMinutes += ChronoUnit.MINUTES.between(previousRecordTime, recordTime.truncatedTo(ChronoUnit.HOURS)).toInt() + 1
                     }
