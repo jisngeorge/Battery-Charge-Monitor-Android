@@ -95,10 +95,9 @@ class MainActivity : AppCompatActivity() {
                 // If our is changed
                 else {
                     // To account for discharge duration if data was not recorded each minute
-                    if((currentStatus == "Discharging"))
+                    if(currentStatus == "Discharging")
                     {
                         dischargeMinutes += ChronoUnit.MINUTES.between(previousRecordTime, recordTime.truncatedTo(ChronoUnit.HOURS)).toInt() + 1
-                        recordTime = recordTime.truncatedTo(ChronoUnit.HOURS)
                     }
                     // Stores data to SQLtable class
                     val dataRow = SQLtable(
@@ -114,6 +113,12 @@ class MainActivity : AppCompatActivity() {
                     hour = recordTime.truncatedTo(ChronoUnit.HOURS)
                     dischargeMinutes = 0
                     totalDischarge = 0
+
+                    if(currentStatus == "Discharging" && previousStatus == "Discharging" && previousPercentage >= currentPercentage) {
+                        dischargeMinutes += ChronoUnit.MINUTES.between(recordTime.truncatedTo(ChronoUnit.HOURS), recordTime).toInt()
+                        totalDischarge += previousPercentage - currentPercentage
+                    }
+                        
                 }
 
                 // Storing previous row's data to variables
@@ -150,6 +155,9 @@ class MainActivity : AppCompatActivity() {
         val tDuration:TextView = findViewById(R.id.textViewDuration)
 
         displayTable.clear()
+        spotCount = 0
+        optimalCount = 0
+        badCount = 0
 
         tDate.text = ""
         tHour.text = ""
